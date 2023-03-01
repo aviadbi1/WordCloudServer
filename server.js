@@ -6,10 +6,13 @@ const classSampler = new ClassSampler();
 
 const app = express();
 
-app.get("/sampleClasses", (req, res) => {
-  console.log("Got request");
-  const wordCloud = classSampler.generateWordCloud();
-  res.send(wordCloud);
+app.get("/sampleClasses", async (req, res) => {
+  try {
+    const wordCloud = await classSampler.generateWordCloud();
+    res.status(200).send(JSON.stringify(wordCloud));
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 app.get("/", function (req, res) {

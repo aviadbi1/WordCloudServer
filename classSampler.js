@@ -5,8 +5,14 @@ class ClassSampler {
   constructor() {}
   async generateWordCloud() {
     const wordsMap = new Map();
+    const promises = [];
+
     for (let i = 0; i < process.env.NUMBER_OF_SAMPLES; i++) {
-      const wordsInClassName = await this.sampleAndParseClassName();
+      promises.push(this.sampleAndParseClassName());
+    }
+
+    const htmlPages = await Promise.all(promises);
+    htmlPages.forEach((wordsInClassName) => {
       for (const word of wordsInClassName) {
         if (wordsMap.has(word)) {
           wordsMap.set(word, wordsMap.get(word) + 1);
@@ -14,7 +20,8 @@ class ClassSampler {
           wordsMap.set(word, 1);
         }
       }
-    }
+    });
+
     return Object.fromEntries(wordsMap);
   }
 

@@ -11,8 +11,8 @@ class ClassSampler {
       promises.push(this.sampleAndParseClassName());
     }
 
-    const htmlPages = await Promise.all(promises);
-    htmlPages.forEach((wordsInClassName) => {
+    const classNames = await Promise.all(promises);
+    classNames.forEach((wordsInClassName) => {
       for (const word of wordsInClassName) {
         if (wordsMap.has(word)) {
           wordsMap.set(word, wordsMap.get(word) + 1);
